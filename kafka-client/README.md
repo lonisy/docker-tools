@@ -1,5 +1,5 @@
 
-Using the Command Line
+## Using the Command Line
 
 ```shell
 
@@ -14,7 +14,7 @@ kafka-consumer-groups.sh \
 
 ```
 
-Using the Shell Script
+## Using the Shell Script
 
 ```shell
 #!/usr/bin/env bash
