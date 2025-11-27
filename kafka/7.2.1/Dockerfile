@@ -1,18 +1,21 @@
-# 基于 Confluent Kafka 官方基础镜像
+# 基于 Confluent Kafka 的官方镜像
 FROM confluentinc/cp-kafka:7.2.1
 
-# 设置环境变量 （可选，根据需要自定义）
+# 设置环境变量以启用 KRaft 模式并配置必要参数
+ENV KAFKA_PROCESS_ROLES=broker,controller
+ENV KAFKA_NODE_ID=1
+ENV KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
+ENV KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+ENV KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+ENV KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+ENV KAFKA_LOG_DIRS=/var/lib/kafka/data
+ENV KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
 ENV KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
 ENV KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
 ENV KAFKA_NUM_PARTITIONS=1
 
-# 在这里可以添加更多配置，拷贝文件或者执行脚本
-# COPY your-configuration-file /etc/kafka/
-# RUN some-custom-command
-
-# 暴露 Kafka 的默认端口 9092和KRaft管理端口9093（如果需要其他端口可自行修改）
+# 暴露端口，以便外部访问
 EXPOSE 9092 9093
 
-# 在这里可以添加一个命令来启动 Kafka 服务
-# 如果需要添加自定义启动命令，可以使用 ENTRYPOINT 或 CMD
-# 默认情况，基础镜像已经定义了 Kafka 启动命令
+# 启动 Kafka，以默认的参数启动
+CMD ["bash", "-c", "/etc/confluent/docker/run"]
