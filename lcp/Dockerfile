@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+#FROM ubuntu:22.04
+FROM hub-mirror.c.163.com/library/ubuntu:22.04
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://mirrors.ustc.edu.cn/ubuntu/|g' /etc/apt/sources.list
 ENV TZ=Asia/Shanghai
 RUN apt-get update && \
